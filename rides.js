@@ -85,5 +85,20 @@ window.RIDES = [
     text: "Write the story of the ride here.",
     photos: 1,
     mapUrl: "https://www.ninjaone.com/fr/blog/activer-ou-desactiver-microsoft-smartscreen/"
+  },
+  
+  {
+    id: "imouzzer",
+    date: "2026-10-14",
+    title: "imouzzer",
+    level: "medium",
+    startPoint: "Ait melloul",
+    distanceKm: 140,
+    elevationM: 2700,
+    durationH: 8,
+    summary: "A short description of the ride goes here: a friendly weekend ride with the group.",
+    text: "Write the story of the ride here.",
+    photos: 1,
+    mapUrl: "https://www.ninjaone.com/fr/blog/activer-ou-desactiver-microsoft-smartscreen/"
   } 
 ];
