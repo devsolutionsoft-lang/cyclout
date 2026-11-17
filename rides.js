@@ -9,6 +9,7 @@
    date        "YYYY-MM-DD"  (newest rides are shown first)
    title       title of the ride
    level       "easy", "medium" or "hard"
+   activity: "mtb",    // "trip" | "cycling" | "running" | "other"
    startPoint  where the ride starts
    distanceKm  distance in km              (number)
    elevationM  elevation gain in metres    (number)
@@ -28,77 +29,18 @@
 window.RIDES = [
 
   {
-    id: "valley-loop",
-    date: "2026-11-08",
-    title: "Valley Loop",
-    level: "easy",
-    startPoint: "Start point of the ride",
-    distanceKm: 25,
-    elevationM: 300,
-    durationH: 2,
-    summary: "A short description of the ride goes here: the terrain, the views, the mood of the day.",
-    text: "Write the story of the ride here.\n\nYou can add a second paragraph by leaving an empty line. Talk about the trail, the weather, who rode with you and what you liked most.",
-    photos: 4,
-    mapUrl: ""
-  },
-
-  {
-    id: "mountain-climb",
-    date: "2026-11-01",
-    title: "Mountain Climb",
+    id: "imouzzer-amskroud-16-05-26",
+    date: "2026-05-16",
+    title: "Imouzzer Idaoutananes",
     level: "hard",
-    startPoint: "Start point of the ride",
-    distanceKm: 40,
-    elevationM: 1100,
-    durationH: 4.5,
-    summary: "A short description of the ride goes here: the climb, the descent, what to expect.",
-    text: "Write the story of the ride here.\n\nAdd tips for other riders: water, food, the best time to start.",
+	activity: "cycling",
+    startPoint: "Ait melloul",
+    distanceKm: 160,
+    elevationM: 2560,
+    durationH: 8,
+    summary: "Long ride ,2560 m of climbing, from Aït Melloul to Imouzzer and Amskroud.",
+    text: "Tough day in the mountains The ride didn't end the way we hoped. One of our friends had a crash and had to be taken away by ambulance. Wishing him a speedy recovery. 🙏",
     photos: 5,
-    mapUrl: ""
-  },
-
-  {
-    id: "sunday-trail",
-    date: "2026-10-25",
-    title: "Sunday Trail",
-    level: "medium",
-    startPoint: "Start point of the ride",
-    distanceKm: 32,
-    elevationM: 650,
-    durationH: 3,
-    summary: "A short description of the ride goes here: a friendly weekend ride with the group.",
-    text: "Write the story of the ride here.",
-    photos: 3,
-    mapUrl: ""
-  },
-  
-  {
-    id: "imouzzer",
-    date: "2026-10-14",
-    title: "imouzzer",
-    level: "medium",
-    startPoint: "Ait melloul",
-    distanceKm: 140,
-    elevationM: 2700,
-    durationH: 8,
-    summary: "A short description of the ride goes here: a friendly weekend ride with the group.",
-    text: "Write the story of the ride here.",
-    photos: 1,
-    mapUrl: "https://www.ninjaone.com/fr/blog/activer-ou-desactiver-microsoft-smartscreen/"
-  },
-  
-  {
-    id: "imouzzer",
-    date: "2026-10-14",
-    title: "imouzzer",
-    level: "medium",
-    startPoint: "Ait melloul",
-    distanceKm: 140,
-    elevationM: 2700,
-    durationH: 8,
-    summary: "A short description of the ride goes here: a friendly weekend ride with the group.",
-    text: "Write the story of the ride here.",
-    photos: 1,
-    mapUrl: "https://www.ninjaone.com/fr/blog/activer-ou-desactiver-microsoft-smartscreen/"
-  } 
+    mapUrl: "https://www.strava.com/activities/18548313896"
+  }
 ];
