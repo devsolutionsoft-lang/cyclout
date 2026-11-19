@@ -159,11 +159,14 @@
     .point h3 { color: var(--green); font-size: 18px; margin-bottom: 4px; }
     .point p { color: var(--muted); font-size: 14.5px; }
 
-    /* RIDES*/
-    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-    .card { display: block; width: 100%; padding: 0; text-align: left; cursor: pointer; overflow: hidden; background: #fff; border: 1px solid var(--border); border-radius: 22px; box-shadow: 0 8px 28px rgba(15,61,46,.06); transition: transform .28s ease, box-shadow .28s ease; color: inherit; }
+    /* RIDES
+       FIX: the card is a <button>, which vertically centers its content.
+       It is now a flex column aligned to the top, so every photo sits at the
+       top of its card with the same 4:3 format, whatever the summary length. */
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: stretch; }
+    .card { display: flex; flex-direction: column; justify-content: flex-start; align-items: stretch; width: 100%; height: 100%; padding: 0; text-align: left; cursor: pointer; overflow: hidden; background: #fff; border: 1px solid var(--border); border-radius: 22px; box-shadow: 0 8px 28px rgba(15,61,46,.06); transition: transform .28s ease, box-shadow .28s ease; color: inherit; }
     .card:hover { transform: translateY(-7px); box-shadow: var(--shadow); }
-    .media { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: linear-gradient(135deg, #1d6b4f, #0f3d2e); }
+    .media { position: relative; flex-shrink: 0; width: 100%; aspect-ratio: 4 / 3; overflow: hidden; background: linear-gradient(135deg, #1d6b4f, #0f3d2e); }
     .media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
     .card:hover .media img, .tile:hover img { transform: scale(1.06); }
     .tag { position: absolute; top: 14px; left: 14px; z-index: 2; padding: 6px 12px; border-radius: 30px; background: var(--orange); color: #fff; font-size: 11px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; }
@@ -171,11 +174,13 @@
     .tag.medium { background: var(--orange); }
     .tag.hard { background: var(--red); }
     .photo-count { position: absolute; right: 14px; bottom: 14px; z-index: 2; padding: 5px 10px; border-radius: 30px; background: rgba(8,28,21,.7); color: #fff; font-size: 12px; font-weight: 700; }
-    .card-body { padding: 22px 24px 24px; }
+    .card-body { flex: 1; display: flex; flex-direction: column; padding: 22px 24px 24px; }
     .card-date { color: var(--orange-dark); font-size: 12px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase; margin-bottom: 4px; }
     .card-body h3 { color: var(--green); font-size: 21px; margin-bottom: 8px; }
-    .card-body p { color: var(--muted); font-size: 14.5px; margin-bottom: 16px; }
-    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    /* Summary limited to 3 lines so all cards stay even.
+       To show the full summary, delete the 3 lines starting with display/-webkit-. */
+    .card-body p { color: var(--muted); font-size: 14.5px; margin-bottom: 16px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
     .chip { padding: 6px 11px; border-radius: 30px; background: var(--green-3); color: var(--green); font-size: 12.5px; font-weight: 700; }
     .rides-empty { grid-column: 1 / -1; text-align: center; color: var(--muted); }
 
@@ -581,58 +586,57 @@
 
       const visibleRides = rides.slice(0, 3);
 
-       function renderRides(list) {
-         list.forEach(function (r) {
-		 
-        const list = photosOf(r);
-        const card = el("button", "card reveal");
-        card.type = "button";
-        card.setAttribute("aria-label", "Open ride: " + r.title);
+      function renderRides(list) {
+        list.forEach(function (r) {
 
-        const media = el("div", "media");
-        if (levelKey(r)) media.appendChild(el("span", "tag " + levelKey(r), levelNames[r.level]));
-        if (list.length) {
-          const img = document.createElement("img");
-          img.src = list[0];
-          img.alt = r.title;
-          img.loading = "lazy";
-          img.onerror = function () { img.remove(); };
-          media.appendChild(img);
-          if (list.length > 1) media.appendChild(el("span", "photo-count", list.length + " photos"));
-        }
-        card.appendChild(media);
+          const ph = photosOf(r);
+          const card = el("button", "card reveal");
+          card.type = "button";
+          card.setAttribute("aria-label", "Open ride: " + r.title);
 
-        const body = el("div", "card-body");
-        const d = fmtDate(r.date);
-        if (d) body.appendChild(el("div", "card-date", d));
-        body.appendChild(el("h3", "", r.title));
-        if (r.summary) body.appendChild(el("p", "", r.summary));
+          const media = el("div", "media");
+          if (levelKey(r)) media.appendChild(el("span", "tag " + levelKey(r), levelNames[r.level]));
+          if (ph.length) {
+            const img = document.createElement("img");
+            img.src = ph[0];
+            img.alt = r.title;
+            img.loading = "lazy";
+            img.onerror = function () { img.remove(); };
+            media.appendChild(img);
+            if (ph.length > 1) media.appendChild(el("span", "photo-count", ph.length + " photos"));
+          }
+          card.appendChild(media);
 
-        const chips = el("div", "chips");
-        if (hasValue(r.distanceKm)) chips.appendChild(el("span", "chip", r.distanceKm + " km"));
-        if (hasValue(r.elevationM)) chips.appendChild(el("span", "chip", "+" + r.elevationM + " m"));
-        if (hasValue(r.durationH)) chips.appendChild(el("span", "chip", fmtDuration(r.durationH)));
-        body.appendChild(chips);
-        card.appendChild(body);
+          const body = el("div", "card-body");
+          const d = fmtDate(r.date);
+          if (d) body.appendChild(el("div", "card-date", d));
+          body.appendChild(el("h3", "", r.title));
+          if (r.summary) body.appendChild(el("p", "", r.summary));
 
-        card.addEventListener("click", function () { openRide(r); });
-        grid.appendChild(card);
+          const chips = el("div", "chips");
+          if (hasValue(r.distanceKm)) chips.appendChild(el("span", "chip", r.distanceKm + " km"));
+          if (hasValue(r.elevationM)) chips.appendChild(el("span", "chip", "+" + r.elevationM + " m"));
+          if (hasValue(r.durationH)) chips.appendChild(el("span", "chip", fmtDuration(r.durationH)));
+          body.appendChild(chips);
+          card.appendChild(body);
+
+          card.addEventListener("click", function () { openRide(r); });
+          grid.appendChild(card);
         });
-}
+      }
 
-renderRides(visibleRides);
+      renderRides(visibleRides);
 
+      if (rides.length > 3) {
+        const moreBtn = el("a", "btn btn-primary", "See More Rides →");
 
-if (rides.length > 3) {
-  const moreBtn = el("a", "btn btn-primary", "See More Rides →");
+        moreBtn.href = "rides.html";
+        moreBtn.style.display = "flex";
+        moreBtn.style.width = "fit-content";
+        moreBtn.style.margin = "35px auto 0";
 
-  moreBtn.href = "rides.html";
-  moreBtn.style.display = "flex";
-  moreBtn.style.width = "fit-content";
-  moreBtn.style.margin = "35px auto 0";
-
-  grid.parentElement.appendChild(moreBtn);
-}
+        grid.parentElement.appendChild(moreBtn);
+      }
 
       // Details window
       function showPhoto(i) {
