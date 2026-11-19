@@ -42,6 +42,9 @@
   <meta name="twitter:description" content="Discover Agadir and Morocco through MTB, cycling, running and outdoor adventures.">
   <meta name="twitter:image" content="https://cyclout.ma/images/og-image.png">
   
+   <!-- fetchpriority="high-->
+  <link rel="preload" as="image" href="/images/hero.jpg" fetchpriority="high">
+  
   <!-- Données structurées (Schema.org) -->
 <script type="application/ld+json">
 {
@@ -77,10 +80,11 @@
 }
 </script>
 
-  <!-- Fonts -->
+    <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap"></noscript>
 
   <style>
     :root {
